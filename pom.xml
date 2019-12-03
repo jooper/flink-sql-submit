@@ -18,13 +18,16 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-api-java</artifactId>
             <version>${flink.version}</version>
+
 <!--            <scope>provided</scope>-->
             <scope>compile</scope>
+
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-table-planner-blink_2.11</artifactId>
             <version>${flink.version}</version>
+
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
@@ -36,6 +39,7 @@
                     <groupId>org.slf4j</groupId>
                 </exclusion>
             </exclusions>
+
         </dependency>
 
         <dependency>
@@ -50,6 +54,7 @@
             <artifactId>flink-jdbc_2.11</artifactId>
             <version>${flink.version}</version>
             <scope>compile</scope>
+
         </dependency>
 
         <!-- CLI dependencies -->

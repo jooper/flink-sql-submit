@@ -11,7 +11,10 @@
 -- SET table.optimizer.distinct-agg.split.enabled=true;
 
 
+<<<<<<< HEAD
 --DDL  链接Kafka
+=======
+>>>>>>> ce45b210ebe4387aaa06128ab88364fe4d2f3e43
 -- source
 CREATE TABLE user_log (
     user_id VARCHAR,
@@ -25,25 +28,41 @@ CREATE TABLE user_log (
     'connector.topic' = 'user_behavior',
     'connector.startup-mode' = 'earliest-offset',
     'connector.properties.0.key' = 'zookeeper.connect',
+<<<<<<< HEAD
     'connector.properties.0.value' = 'slave1:2181',
     'connector.properties.1.key' = 'bootstrap.servers',
     'connector.properties.1.value' = 'slave2:9092',
+=======
+    'connector.properties.0.value' = 'localhost:2181',
+    'connector.properties.1.key' = 'bootstrap.servers',
+    'connector.properties.1.value' = 'localhost:9092',
+>>>>>>> ce45b210ebe4387aaa06128ab88364fe4d2f3e43
     'update-mode' = 'append',
     'format.type' = 'json',
     'format.derive-schema' = 'true'
 );
 
+<<<<<<< HEAD
 
 -- sink mysql
+=======
+-- sink
+>>>>>>> ce45b210ebe4387aaa06128ab88364fe4d2f3e43
 CREATE TABLE pvuv_sink (
     dt VARCHAR,
     pv BIGINT,
     uv BIGINT
 ) WITH (
     'connector.type' = 'jdbc',
+<<<<<<< HEAD
     'connector.url' = 'jdbc:mysql://master:3306/flink-test',
     'connector.table' = 'pvuv_sink',
     'connector.username' = 'hive',
+=======
+    'connector.url' = 'jdbc:mysql://localhost:3306/flink-test',
+    'connector.table' = 'pvuv_sink',
+    'connector.username' = 'root',
+>>>>>>> ce45b210ebe4387aaa06128ab88364fe4d2f3e43
     'connector.password' = '123456',
     'connector.write.flush.max-rows' = '1'
 );
@@ -55,6 +74,10 @@ SELECT
   COUNT(*) AS pv,
   COUNT(DISTINCT user_id) AS uv
 FROM user_log
+<<<<<<< HEAD
 GROUP BY DATE_FORMAT(ts, 'yyyy-MM-dd HH:00');
 
 
+=======
+GROUP BY DATE_FORMAT(ts, 'yyyy-MM-dd HH:00');
+>>>>>>> ce45b210ebe4387aaa06128ab88364fe4d2f3e43
