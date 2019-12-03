@@ -32,7 +32,6 @@ public class SqlSubmit {
 
     public static void main(String[] args) throws Exception {
         String[] dd = new String[]{"q2"};
-
 //        final CliOptions options = CliOptionsParser.parseClient(args);
         final CliOptions options = CliOptionsParser.parseClient(dd);
         SqlSubmit submit = new SqlSubmit(options);
