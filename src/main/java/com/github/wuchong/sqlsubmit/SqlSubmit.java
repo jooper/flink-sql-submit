@@ -17,10 +17,7 @@
  */
 
 package com.github.wuchong.sqlsubmit;
-<<<<<<< HEAD
-=======
 
->>>>>>> ce45b210ebe4387aaa06128ab88364fe4d2f3e43
 import com.github.wuchong.sqlsubmit.cli.CliOptions;
 import com.github.wuchong.sqlsubmit.cli.CliOptionsParser;
 import com.github.wuchong.sqlsubmit.cli.SqlCommandParser;
@@ -28,10 +25,6 @@ import com.github.wuchong.sqlsubmit.cli.SqlCommandParser.SqlCommandCall;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.SqlParserException;
 import org.apache.flink.table.api.TableEnvironment;
-<<<<<<< HEAD
-=======
-
->>>>>>> ce45b210ebe4387aaa06128ab88364fe4d2f3e43
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -39,13 +32,11 @@ import java.util.List;
 public class SqlSubmit {
 
     public static void main(String[] args) throws Exception {
-<<<<<<< HEAD
+
         String[] dd = new String[]{"q2"};
 //        final CliOptions options = CliOptionsParser.parseClient(args);
         final CliOptions options = CliOptionsParser.parseClient(dd);
-=======
-        final CliOptions options = CliOptionsParser.parseClient(args);
->>>>>>> ce45b210ebe4387aaa06128ab88364fe4d2f3e43
+
         SqlSubmit submit = new SqlSubmit(options);
         submit.run();
     }
@@ -66,10 +57,6 @@ public class SqlSubmit {
                 .useBlinkPlanner()
                 .inStreamingMode()
                 .build();
-<<<<<<< HEAD
-
-=======
->>>>>>> ce45b210ebe4387aaa06128ab88364fe4d2f3e43
         this.tEnv = TableEnvironment.create(settings);
         List<String> sql = Files.readAllLines(Paths.get(workSpace + "/" + sqlFilePath));
         List<SqlCommandCall> calls = SqlCommandParser.parse(sql);
@@ -103,13 +90,11 @@ public class SqlSubmit {
         tEnv.getConfig().getConfiguration().setString(key, value);
     }
 
-<<<<<<< HEAD
+
     public SqlSubmit(String sqlFilePath) {
         this.sqlFilePath = sqlFilePath;
     }
 
-=======
->>>>>>> ce45b210ebe4387aaa06128ab88364fe4d2f3e43
     private void callCreateTable(SqlCommandCall cmdCall) {
         String ddl = cmdCall.operands[0];
         try {
