@@ -34,7 +34,8 @@ public class SourceGenerator {
         }
         long delay = 1000_000 / speed; // 每条耗时多少毫秒
 
-        try (InputStream inputStream = SourceGenerator.class.getClassLoader().getResourceAsStream("user_behavior.log")) {
+        //user_behavior.log    UserBrowseLog.log
+        try (InputStream inputStream = SourceGenerator.class.getClassLoader().getResourceAsStream("UserBrowseLog.log")) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             long start = System.nanoTime();
             while (reader.ready()) {

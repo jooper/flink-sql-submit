@@ -25,6 +25,7 @@ import com.github.wuchong.sqlsubmit.cli.SqlCommandParser.SqlCommandCall;
 import org.apache.flink.table.api.EnvironmentSettings;
 import org.apache.flink.table.api.SqlParserException;
 import org.apache.flink.table.api.TableEnvironment;
+
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -33,10 +34,12 @@ public class SqlSubmit {
 
     public static void main(String[] args) throws Exception {
 
-        String[] dd = new String[]{"q2"};
-//        final CliOptions options = CliOptionsParser.parseClient(args);
+//        -w "${PROJECT_DIR}"/src/main/resources/ -f "$1".sql
+        String[] dd = new String[]{"-w","E:\\Source\\Flink_Study\\flink-sql-submit\\src\\main\\resources","-f","q1.sql"};
         final CliOptions options = CliOptionsParser.parseClient(dd);
 
+
+//        final CliOptions options = CliOptionsParser.parseClient(args);
         SqlSubmit submit = new SqlSubmit(options);
         submit.run();
     }
