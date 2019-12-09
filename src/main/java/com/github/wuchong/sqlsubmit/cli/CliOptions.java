@@ -27,6 +27,7 @@ public class CliOptions {
     private final String sqlFilePath;
     private final String workingSpace;
 
+
     public CliOptions(String sqlFilePath, String workingSpace) {
         this.sqlFilePath = sqlFilePath;
         this.workingSpace = workingSpace;
@@ -39,4 +40,5 @@ public class CliOptions {
     public String getWorkingSpace() {
         return workingSpace;
     }
+
 }

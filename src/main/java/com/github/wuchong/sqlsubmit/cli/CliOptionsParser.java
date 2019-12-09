@@ -44,6 +44,16 @@ public class CliOptionsParser {
             .desc("The SQL file path.")
             .build();
 
+    public static final Option OPTION_SOURCE_TXT_FILE = Option
+            .builder("s")
+            .required(true)
+            .longOpt("file")
+            .numberOfArgs(1)
+            .argName("SOURCE TXT path")
+            .desc("The SOURCE file path.")
+            .build();
+
+
     public static final Options CLIENT_OPTIONS = getClientOptions(new Options());
 
     public static Options getClientOptions(Options options) {
@@ -67,8 +77,25 @@ public class CliOptionsParser {
                     line.getOptionValue(CliOptionsParser.OPTION_SQL_FILE.getOpt()),
                     line.getOptionValue(CliOptionsParser.OPTION_WORKING_SPACE.getOpt())
             );
+        } catch (ParseException e) {
+            throw new RuntimeException(e.getMessage());
         }
-        catch (ParseException e) {
+    }
+
+
+    /**
+     * @param args
+     * @return
+     */
+    public static String parseCli(String[] args) {
+        if (args.length < 1) {
+            throw new RuntimeException("./sql-submit -w <work_space_dir> -f <sql-file>");
+        }
+        try {
+            DefaultParser parser = new DefaultParser();
+            CommandLine line = parser.parse(CLIENT_OPTIONS, args, true);
+            return line.getOptionValue(CliOptionsParser.OPTION_SOURCE_TXT_FILE.getOpt());
+        } catch (ParseException e) {
             throw new RuntimeException(e.getMessage());
         }
     }

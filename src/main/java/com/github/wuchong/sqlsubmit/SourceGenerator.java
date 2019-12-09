@@ -18,6 +18,9 @@
 
 package com.github.wuchong.sqlsubmit;
 
+import com.github.wuchong.sqlsubmit.cli.CliOptions;
+import com.github.wuchong.sqlsubmit.cli.CliOptionsParser;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,16 +29,20 @@ import java.io.InputStreamReader;
 public class SourceGenerator {
 
     private static final long SPEED = 1000; // 每秒1000条
+    private static final String FILE = "user_behavior.log";//log 数据源文件名称    //user_behavior.log    UserBrowseLog.log
 
     public static void main(String[] args) {
         long speed = SPEED;
+        String file = FILE;
         if (args.length > 0) {
             speed = Long.valueOf(args[0]);
+            file = String.valueOf(args[1]);
         }
         long delay = 1000_000 / speed; // 每条耗时多少毫秒
+//        file = file + ".log";
 
-        //user_behavior.log    UserBrowseLog.log
-        try (InputStream inputStream = SourceGenerator.class.getClassLoader().getResourceAsStream("UserBrowseLog.log")) {
+
+        try (InputStream inputStream = SourceGenerator.class.getClassLoader().getResourceAsStream(file)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             long start = System.nanoTime();
             while (reader.ready()) {
@@ -44,7 +51,7 @@ public class SourceGenerator {
 
                 long end = System.nanoTime();
                 long diff = end - start;
-                while (diff < (delay*1000)) {
+                while (diff < (delay * 1000)) {
                     Thread.sleep(1);
                     end = System.nanoTime();
                     diff = end - start;
@@ -57,5 +64,11 @@ public class SourceGenerator {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static String getCliParas(String[] args) {
+        String[] dd = new String[]{"-w", "q2.sql"};
+        return CliOptionsParser.parseCli(dd);
     }
 }

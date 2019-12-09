@@ -21,7 +21,7 @@ CREATE TABLE user_log (
     'format.derive-schema' = 'true'
 );
 
--- sink mysql
+-- sink kafka
 CREATE TABLE pvuv_sink (
     dt VARCHAR,
 --     pv BIGINT,
