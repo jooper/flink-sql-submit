@@ -24,11 +24,13 @@ package com.github.wuchong.sqlsubmit.cli;
  */
 public class CliOptions {
 
+    private final String jobName;
     private final String sqlFilePath;
     private final String workingSpace;
 
 
-    public CliOptions(String sqlFilePath, String workingSpace) {
+    public CliOptions(String jobName, String sqlFilePath, String workingSpace) {
+        this.jobName = jobName;
         this.sqlFilePath = sqlFilePath;
         this.workingSpace = workingSpace;
     }
@@ -39,6 +41,10 @@ public class CliOptions {
 
     public String getWorkingSpace() {
         return workingSpace;
+    }
+
+    public String getJobName() {
+        return this.jobName;
     }
 
 }

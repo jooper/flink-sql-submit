@@ -34,8 +34,9 @@ public class SqlSubmit {
 
     public static void main(String[] args) throws Exception {
 
-//        -w "${PROJECT_DIR}"/src/main/resources/ -f "$1".sql
-        String[] dd = new String[]{"-w","E:\\Source\\Flink_Study\\flink-sql-submit\\src\\main\\resources","-f","q2.sql"};
+//        -w "${PROJECT_DIR}"/src/main/resources/ -f "$1".sql -jn "xxx"
+        String[] dd = new String[]{"-w", "E:\\Source\\Flink_Study\\flink-sql-submit\\src\\main\\resources",
+                "-f", "q2.sql", "-jn", "personcount"};
         final CliOptions options = CliOptionsParser.parseClient(dd);
 
 
@@ -48,11 +49,13 @@ public class SqlSubmit {
 
     private String sqlFilePath;
     private String workSpace;
+    private String jobName = "flink job";
     private TableEnvironment tEnv;
 
     private SqlSubmit(CliOptions options) {
         this.sqlFilePath = options.getSqlFilePath();
         this.workSpace = options.getWorkingSpace();
+        this.jobName = options.getJobName();
     }
 
     private void run() throws Exception {
@@ -66,7 +69,7 @@ public class SqlSubmit {
         for (SqlCommandCall call : calls) {
             callCommand(call);
         }
-        tEnv.execute("SQL Job");
+        tEnv.execute(jobName);
     }
 
     // --------------------------------------------------------------------------------------------
