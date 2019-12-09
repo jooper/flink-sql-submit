@@ -22,7 +22,7 @@ CREATE TABLE user_log (
 );
 
 -- sink kafka
-CREATE TABLE pvuv_sink (
+CREATE TABLE pvuv_sink_kafka (
     dt VARCHAR,
 --     pv BIGINT,
 --     uv BIGINT
@@ -43,20 +43,31 @@ CREATE TABLE pvuv_sink (
 );
 
 
--- INSERT INTO pvuv_sink
--- SELECT
---   DATE_FORMAT(ts, 'yyyy-MM-dd HH:00') dt,
---   COUNT(*) AS pv,
---   COUNT(DISTINCT user_id) AS uv
--- FROM user_log
--- GROUP BY DATE_FORMAT(ts, 'yyyy-MM-dd HH:00');
+CREATE TABLE pvuv_sink_mysql (
+    dt VARCHAR,
+    pv BIGINT,
+    uv BIGINT
+) WITH (
+    'connector.type' = 'jdbc',
+    'connector.url' = 'jdbc:mysql://master:3306/flink-test',
+    'connector.table' = 'pvuv_sink',
+    'connector.username' = 'hive',
+    'connector.password' = '123456',
+    'connector.write.flush.max-rows' = '1'
+);
 
 
 
-INSERT INTO pvuv_sink
+INSERT INTO pvuv_sink_mysql
 SELECT
   DATE_FORMAT(ts, 'yyyy-MM-dd HH:00') dt,
-  1 pv,
-  2 AS uv
-FROM user_log;
+  COUNT(*) AS pv,
+  COUNT(DISTINCT user_id) AS uv
+FROM user_log
+GROUP BY DATE_FORMAT(ts, 'yyyy-MM-dd HH:00');
+
+
+
+INSERT INTO pvuv_sink_kafka
+SELECT * FROM pvuv_sink_mysql;
 

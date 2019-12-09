@@ -26,4 +26,4 @@ echo "Generating sources..."
 #java -cp target/flink-sql-submit.jar com.github.wuchong.sqlsubmit.SourceGenerator 1000 | $KAFKA_DIR/bin/kafka-console-producer.sh --broker-list master:9092 --topic user_behavior
 
 # java  第一个参数  每秒的条数，第二个参数：source文件名称
-java -cp target/flink-sql-submit.jar com.github.wuchong.sqlsubmit.SourceGenerator 1000 user_behavior.log | $KAFKA_DIR/bin/kafka-console-producer.sh --broker-list master:9092 --topic user_browelog
+java -cp target/flink-sql-submit.jar com.github.wuchong.sqlsubmit.SourceGenerator 1000 user_behavior.log | $KAFKA_DIR/bin/kafka-console-producer.sh --broker-list master:9092 --topic user_behavior
