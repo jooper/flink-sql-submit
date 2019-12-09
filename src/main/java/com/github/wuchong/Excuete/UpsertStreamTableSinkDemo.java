@@ -66,7 +66,7 @@ class UpsertStreamTableSinkDemo {
         //3、注册Kafka数据源
         Properties browseProperties = new Properties();
         browseProperties.put("bootstrap.servers", METADATA_BROKER_LIST);
-        browseProperties.put("group.id", GROUP_ID);
+//        browseProperties.put("group.id", GROUP_ID);
         browseProperties.put("zookeeper.connect", ZOOKEEPER_CONNECT);
         DataStream<UserBrowseLog> browseStream = streamEnv
                 .addSource(new FlinkKafkaConsumer<>("user_browelog", new SimpleStringSchema(), browseProperties))
@@ -83,7 +83,7 @@ class UpsertStreamTableSinkDemo {
         Table table = tableEnv.sqlQuery(ss);
         tableEnv.toAppendStream(table, Row.class).print();
         table.printSchema();
-
+        tableEnv.toAppendStream(table.select("userID"), Row.class);
         tableEnv.execute("xx");
 
         //4、注册UpsertStreamTableSink
@@ -91,7 +91,6 @@ class UpsertStreamTableSinkDemo {
         DataType[] sinkFieldTypes = {DataTypes.STRING(), DataTypes.BIGINT()};
         UpsertStreamTableSink<Row> myUpsertStreamTableSink = new MyUpsertStreamTableSink(sinkFieldNames, sinkFieldTypes);
         tableEnv.registerTableSink("sink_stdout", myUpsertStreamTableSink);
-
 
 
         //5、连续查询
