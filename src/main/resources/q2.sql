@@ -22,17 +22,13 @@ CREATE TABLE user_log (
 );
 
 -- sink mysql
-CREATE TABLE pvuv_sink1 (
+CREATE TABLE pvuv_sink (
     dt VARCHAR,
-    pv INT,
-    uv INT
+--     pv BIGINT,
+--     uv BIGINT
+    pv integer,
+    uv integer
 ) WITH (
---     'connector.type' = 'jdbc',
---     'connector.url' = 'jdbc:mysql://master:3306/flink-test',
---     'connector.table' = 'pvuv_sink',
---     'connector.username' = 'hive',
---     'connector.password' = '123456',
---     'connector.write.flush.max-rows' = '1'
     'connector.type' = 'kafka',
     'connector.version' = 'universal',
     'connector.topic' = 'user_behavior_sink',
@@ -57,7 +53,7 @@ CREATE TABLE pvuv_sink1 (
 
 
 
-INSERT INTO pvuv_sink1
+INSERT INTO pvuv_sink
 SELECT
   DATE_FORMAT(ts, 'yyyy-MM-dd HH:00') dt,
   1 pv,

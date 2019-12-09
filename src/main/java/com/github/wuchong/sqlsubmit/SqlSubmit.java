@@ -35,7 +35,7 @@ public class SqlSubmit {
     public static void main(String[] args) throws Exception {
 
 //        -w "${PROJECT_DIR}"/src/main/resources/ -f "$1".sql
-        String[] dd = new String[]{"-w","E:\\Source\\Flink_Study\\flink-sql-submit\\src\\main\\resources","-f","q1.sql"};
+        String[] dd = new String[]{"-w","E:\\Source\\Flink_Study\\flink-sql-submit\\src\\main\\resources","-f","q2.sql"};
         final CliOptions options = CliOptionsParser.parseClient(dd);
 
 
