@@ -24,10 +24,8 @@ CREATE TABLE user_log (
 -- sink kafka
 CREATE TABLE pvuv_sink_kafka (
     dt VARCHAR,
---     pv BIGINT,
---     uv BIGINT
-    pv integer,
-    uv integer
+     pv BIGINT,
+     uv BIGINT
 ) WITH (
     'connector.type' = 'kafka',
     'connector.version' = 'universal',
