@@ -35,12 +35,12 @@ public class SqlSubmit {
     public static void main(String[] args) throws Exception {
 
 //        -w "${PROJECT_DIR}"/src/main/resources/ -f "$1".sql -jn "xxx"
-        String[] dd = new String[]{"-w", "E:\\Source\\Flink_Study\\flink-sql-submit\\src\\main\\resources",
-                "-f", "q2.sql", "-jn", "personcount"};
-        final CliOptions options = CliOptionsParser.parseClient(dd);
+//        String[] dd = new String[]{"-w", "E:\\Source\\Flink_Study\\flink-sql-submit\\src\\main\\resources",
+//                "-f", "q2.sql", "-jn", "personcount"};
+//        final CliOptions options = CliOptionsParser.parseClient(dd);
 
 
-//        final CliOptions options = CliOptionsParser.parseClient(args);
+        final CliOptions options = CliOptionsParser.parseClient(args);
         SqlSubmit submit = new SqlSubmit(options);
         submit.run();
     }
