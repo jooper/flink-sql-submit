@@ -38,11 +38,6 @@ CREATE TABLE pvuv_sink_kafka (
     'update-mode' = 'append',
     'format.type' = 'json',
     'format.derive-schema' = 'true'
-
---     type = 'kafka010',    --请参见Kafka版本对应关系。
---     topic = 'test_kafka_topic',
---     `group.id` = 'test_kafka_consumer_group',
---     bootstrap.servers = 'slave2:9092'
 );
 
 
@@ -68,8 +63,4 @@ SELECT
   COUNT(DISTINCT user_id) AS uv
 FROM user_log
 GROUP BY DATE_FORMAT(ts, 'yyyy-MM-dd HH:00');
-
-
-
-INSERT INTO pvuv_sink_kafka SELECT * FROM pvuv_sink_mysql;
 
