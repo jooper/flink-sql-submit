@@ -3,9 +3,10 @@ package com.github.wuchong.ETL
 import java.util.Properties
 
 import com.alibaba.fastjson.{JSON, JSONObject}
+import com.github.wuchong.ETL.base.kafkaConfigProvider
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment, _}
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer
+import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer, FlinkKafkaProducer}
 import org.apache.flink.table.api.Table
 import org.apache.flink.table.api.scala.StreamTableEnvironment
 
@@ -14,15 +15,6 @@ import org.apache.flink.table.api.scala.StreamTableEnvironment
   * funcation：清理通过ogg同步到kafka中的数据，只保留after之后的数据到kafka中
   * author：
   */
-
-case class KafkaConfig() {
-  val properties = new Properties()
-  val kafkaServer = "10.158.5.80:9092,10.158.5.83:9092,10.158.5.81:9092"
-  val topicGroupId = "com.flinklearn.main.Main"
-
-  properties.setProperty("bootstrap.servers", kafkaServer)
-  properties.setProperty("group.id", topicGroupId)
-}
 
 
 object ETL_OGG_DATA {
@@ -37,15 +29,20 @@ class ETL_OGG_DATA {
 
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     val streamTableEnv: StreamTableEnvironment = StreamTableEnvironment.create(env)
+    val properties = kafkaConfigProvider.getCnf()
 
-    val result: DataStream[String] = getSourceOggDataFromKafka(env, streamTableEnv)
+    val result: DataStream[String] = getSourceOggDataFromKafka(env, streamTableEnv, properties)
     result.print()
+
+    sinkDataToKafka("test_oggg", result, properties);
 
     env.execute("Kafka sql test.")
   }
 
-  private def getSourceOggDataFromKafka(env: _root_.org.apache.flink.streaming.api.scala.StreamExecutionEnvironment, streamTableEnv: _root_.org.apache.flink.table.api.scala.StreamTableEnvironment) = {
-    val properties = new KafkaConfig().properties
+  //获取kafka中原始的ogg数据，并取得after之后的数据
+  private def getSourceOggDataFromKafka(env: _root_.org.apache.flink.streaming.api.scala.StreamExecutionEnvironment,
+                                        streamTableEnv: _root_.org.apache.flink.table.api.scala.StreamTableEnvironment,
+                                        properties: Properties) = {
 
     //从kafka读取数据，得到stream
     val stream: DataStream[String] = env
@@ -56,7 +53,7 @@ class ETL_OGG_DATA {
           val logData: JSONObject = JSON.parseObject(line)
           val afterData: JSONObject = logData.getJSONObject("after")
           val operationType = logData.getString("op_type")
-          afterData.put("op_type", operationType)
+          afterData.put("op_type", operationType) //加入操作类型：U I D
           rtn = afterData.toString();
         } catch {
           case ex: Exception => {
@@ -75,5 +72,13 @@ class ETL_OGG_DATA {
     val value: DataStream[String] = streamTableEnv.toAppendStream[String](table)
     value
   }
+
+  private def sinkDataToKafka(topicId: String, stream: DataStream[String], properties: Properties): Unit = {
+    //    val properties = kafkaConfigProvider.getCnf()
+    val producer = new FlinkKafkaProducer[String](topicId, new SimpleStringSchema(), properties)
+    stream.addSink(producer).name(topicId)
+      .setParallelism(5);
+  }
+
 }
 
