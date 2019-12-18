@@ -38,6 +38,13 @@ class ETL_OGG_DATA {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     val streamTableEnv: StreamTableEnvironment = StreamTableEnvironment.create(env)
 
+    val result: DataStream[String] = getSourceOggDataFromKafka(env, streamTableEnv)
+    result.print()
+
+    env.execute("Kafka sql test.")
+  }
+
+  private def getSourceOggDataFromKafka(env: _root_.org.apache.flink.streaming.api.scala.StreamExecutionEnvironment, streamTableEnv: _root_.org.apache.flink.table.api.scala.StreamTableEnvironment) = {
     val properties = new KafkaConfig().properties
 
     //从kafka读取数据，得到stream
@@ -59,24 +66,14 @@ class ETL_OGG_DATA {
         rtn
       }).filter(line => line != null)
 
-
-
     //    val tableEnv: TableEnvironment = TableEnvironment.create(settings)
     //将stream注册为temp_alert表，并打印msg字段
-
-
     //    val table: Table = stream.toTable(streamTableEnv)
-
-
     streamTableEnv.registerDataStream("ogg", stream)
     val table: Table = streamTableEnv.sqlQuery("select * from ogg")
 
     val value: DataStream[String] = streamTableEnv.toAppendStream[String](table)
-
-
-    value.print()
-
-    env.execute("Kafka sql test.")
+    value
   }
 }
 
