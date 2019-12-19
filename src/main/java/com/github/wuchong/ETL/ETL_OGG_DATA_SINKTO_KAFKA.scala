@@ -17,31 +17,32 @@ import org.apache.flink.table.api.scala.StreamTableEnvironment
   */
 
 
-object ETL_OGG_DATA {
-  var sinkTopicId = "test_oggg";
-  var jobName = "elt_ogg_data_sinkto_kafka";
+object ETL_OGG_DATA_SINKTO_KAFKA {
+  var sourceTopicId = "test_ogg"
+  var sinkTopicId = "test_oggg"
+  var jobName = "elt_ogg_data_sinkto_kafka"
 
   def main(args: Array[String]): Unit = {
 
-    if (args.length > 0) {
-      sinkTopicId = String.valueOf(args(0))
-      jobName = String.valueOf(args(1))
-      new ETL_OGG_DATA().startEtlApp(sinkTopicId, jobName)
-    }
-    else {
-      throw new RuntimeException("sink topicid and jobname mast providered")
-    }
+    //    if (args.length > 0) {
+    //      sinkTopicId = String.valueOf(args(0))
+    //      jobName = String.valueOf(args(1))
+    new ETL_OGG_DATA_SINKTO_KAFKA().startEtlApp(sourceTopicId, sinkTopicId, jobName)
+    //    }
+    //    else {
+    //      throw new RuntimeException("sink topicid and jobname mast providered")
+    //    }
   }
 }
 
 
-class ETL_OGG_DATA {
+class ETL_OGG_DATA_SINKTO_KAFKA {
 
-  def startEtlApp(sinkTopicId: String, jobName: String): Unit = {
+  def startEtlApp(sourceTopicId: String, sinkTopicId: String, jobName: String): Unit = {
 
     val (env: StreamExecutionEnvironment, streamTableEnv: StreamTableEnvironment, properties: Properties) = getEnv
 
-    val result: DataStream[String] = getSourceOggDataFromKafka(env, streamTableEnv, properties)
+    val result: DataStream[String] = getSourceOggDataFromKafka(sourceTopicId, env, streamTableEnv, properties)
 
     sinkDataToKafka(sinkTopicId, result, properties)
 
@@ -56,12 +57,11 @@ class ETL_OGG_DATA {
   }
 
   //获取kafka中原始的ogg数据，并取得after之后的数据
-  private def getSourceOggDataFromKafka(env: StreamExecutionEnvironment,
-                                        streamTableEnv: StreamTableEnvironment,
+  private def getSourceOggDataFromKafka(sourceTopicId: String, env: StreamExecutionEnvironment, streamTableEnv: StreamTableEnvironment,
                                         properties: Properties) = {
     //从kafka读取数据，得到stream
     val stream: DataStream[String] = env
-      .addSource(new FlinkKafkaConsumer[String]("test_ogg", new SimpleStringSchema(), properties))
+      .addSource(new FlinkKafkaConsumer[String](sourceTopicId, new SimpleStringSchema(), properties))
       .map(line => {
         var rtn: String = null
         try {
@@ -85,9 +85,11 @@ class ETL_OGG_DATA {
     val table: Table = streamTableEnv.sqlQuery("select * from ogg")
 
     val value: DataStream[String] = streamTableEnv.toAppendStream[String](table)
+    value.print()
     value
   }
 
+  //将数据存储到kafka中指定的的topicid中
   private def sinkDataToKafka(sinkTopicId: String, stream: DataStream[String], properties: Properties): Unit = {
     //    val properties = kafkaConfigProvider.getCnf()
     val producer = new FlinkKafkaProducer[String](sinkTopicId, new SimpleStringSchema(), properties)
