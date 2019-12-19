@@ -4,6 +4,7 @@ import java.util.Properties
 
 import com.alibaba.fastjson.{JSON, JSONObject}
 import com.github.wuchong.ETL.base.kafkaConfigProvider
+import com.github.wuchong.ETL.utilites.fastJsonExt
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment, _}
 import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer, FlinkKafkaProducer}
@@ -19,10 +20,11 @@ import org.apache.flink.table.api.scala.StreamTableEnvironment
 
 object ETL_OGG_DATA_SINKTO_KAFKA {
   var sourceTopicId = "test_ogg"
-  var sinkTopicId = "test_oggg"
+  var sinkTopicId = "user_behavior"
   var jobName = "elt_ogg_data_sinkto_kafka"
 
   def main(args: Array[String]): Unit = {
+
 
     //    if (args.length > 0) {
     //      sinkTopicId = String.valueOf(args(0))
@@ -68,8 +70,8 @@ class ETL_OGG_DATA_SINKTO_KAFKA {
           val logData: JSONObject = JSON.parseObject(line)
           val afterData: JSONObject = logData.getJSONObject("after")
           val operationType = logData.getString("op_type")
-          afterData.put("op_type", operationType) //加入操作类型：U I D
-          rtn = afterData.toString();
+          afterData.put("OP_TYPE", operationType) //加入操作类型：U I D
+          rtn = fastJsonExt.transToLowerObject(afterData.toString()).toString;
         } catch {
           case ex: Exception => {
             ex.printStackTrace()
@@ -91,11 +93,16 @@ class ETL_OGG_DATA_SINKTO_KAFKA {
 
   //将数据存储到kafka中指定的的topicid中
   private def sinkDataToKafka(sinkTopicId: String, stream: DataStream[String], properties: Properties): Unit = {
-    //    val properties = kafkaConfigProvider.getCnf()
     val producer = new FlinkKafkaProducer[String](sinkTopicId, new SimpleStringSchema(), properties)
     stream.addSink(producer).name(sinkTopicId)
       .setParallelism(5);
   }
+
+  private def transToLowerObject(jSONArray1: JSONObject) = {
+    val jsonArray2 = new JSONObject()
+    jsonArray2
+  }
+
 
 }
 
