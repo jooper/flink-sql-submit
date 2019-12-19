@@ -30,11 +30,11 @@ class ETL_OGG_DATA {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     val streamTableEnv: StreamTableEnvironment = StreamTableEnvironment.create(env)
     val properties = kafkaConfigProvider.getCnf()
+    val target_sink_topicid = "test_oggg"
 
     val result: DataStream[String] = getSourceOggDataFromKafka(env, streamTableEnv, properties)
-    result.print()
 
-    sinkDataToKafka("test_oggg", result, properties);
+    sinkDataToKafka(target_sink_topicid, result, properties)
 
     env.execute("Kafka sql test.")
   }
