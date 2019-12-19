@@ -39,14 +39,32 @@ function main() {
 			return
 		fi
 
-		local sql="$(cat ${data_file} | sed -e '/^$/d' | sed -e "s/,/','/g" | sed -e "s/^/insert into ${table_name} values('/g" -e "s/$/'\);/g")"
-		res=$(exec_sql "${sql}")
-		if [ -z "${res}" ]; then
-			echo "数据插入成功！"
-		else
-			echo "${res}"
-			echo "数据插入失败！"
-		fi
+
+
+
+		for line in $(cat ${data_file}); do
+			sleep 3
+            echo $line > ./lineData.log
+			echo $line
+			local sql="$( cat ./lineData.log | sed -e '/^$/d' | sed -e "s/,/','/g" | sed -e "s/^/insert into ${table_name} values('/g" -e "s/$/'\);/g")"
+		
+			res=$(exec_sql "${sql}")
+			if [ -z "${res}" ]; then
+				echo "数据插入成功！"
+			else
+				echo "${res}"
+				echo "数据插入失败！"
+			fi
+		done
+
+		# local sql="$(cat ${data_file} | sed -e '/^$/d' | sed -e "s/,/','/g" | sed -e "s/^/insert into ${table_name} values('/g" -e "s/$/'\);/g")"
+		# res=$(exec_sql "${sql}")
+		# if [ -z "${res}" ]; then
+		# 	echo "数据插入成功！"
+		# else
+		# 	echo "${res}"
+		# 	echo "数据插入失败！"
+		# fi
 	fi
 }
 
