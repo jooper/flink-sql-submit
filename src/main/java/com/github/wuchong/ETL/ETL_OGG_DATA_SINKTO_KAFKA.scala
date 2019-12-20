@@ -26,8 +26,9 @@ object ETL_OGG_DATA_SINKTO_KAFKA {
 
   def main(args: Array[String]): Unit = {
     if (args.length > 0) {
-      sinkTopicId = String.valueOf(args(0))
-      jobName = String.valueOf(args(1))
+      sourceTopicId = String.valueOf(args(0))
+      sinkTopicId = String.valueOf(args(1))
+      jobName = String.valueOf(args(2))
       new ETL_OGG_DATA_SINKTO_KAFKA().startEtlApp(sourceTopicId, sinkTopicId, jobName)
     }
     else {
