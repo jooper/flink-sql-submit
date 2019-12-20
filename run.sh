@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+#提交job
+#$FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "$1".sql -jn "$2"
 ################################################################################
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
@@ -21,8 +23,7 @@
 source "$(dirname "$0")"/env.sh
 
 PROJECT_DIR=`pwd`
+
 #$FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "$1".sql -jn "$2"
-
-
 $FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "oracle_to_mysql".sql -jn "oracle_to_mysql"
 $FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "mysql_to_kafka".sql -jn "mysql_to_kafka"

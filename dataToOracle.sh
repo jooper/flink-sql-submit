@@ -1,7 +1,11 @@
 #!/bin/bash
+#模拟向oracle中插入数据
 # 传入参数1.数据表名，2.逗号分隔数据文件
+
+#use case : sh dataToOracle.sh table_name ./src/main/resources/oracle_mock_data.log
 #use case : sh dataToOracle.sh test_ogg ./src/main/resources/oracle_mock_data.log
 
+#这里登陆账号和密码，数据库一定要在这个账号下面，如test_ogg账号下面，有一个test_ogg表
 conn=test_ogg/test_ogg@10.158.5.84:1521/oracle
 # 连接中要替换成你自己的Oracle用户名和密码，默认实例名为orcl如果你更改了也需要替换
 export NLS_LANG="SIMPLIFIED CHINESE_CHINA.AL32UTF8"
