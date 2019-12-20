@@ -146,6 +146,24 @@
                 </executions>
             </plugin>
 
+            <!--添加上scala插件，不然打包的时候 scala写的代码不会被生成class文件包含在最终的包里面-->
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <recompileMode>incremental</recompileMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 
