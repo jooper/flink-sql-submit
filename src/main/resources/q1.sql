@@ -13,46 +13,27 @@
 
 
 -- source
--- CREATE TABLE user_log (
---     user_id VARCHAR,
---     item_id VARCHAR,
---     category_id VARCHAR,
---     behavior VARCHAR,
---     ts TIMESTAMP
--- ) WITH (
---     'connector.type' = 'kafka',
---     'connector.version' = 'universal',
---     'connector.topic' = 'user_behavior',
---     'connector.startup-mode' = 'earliest-offset',
---     'connector.properties.0.key' = 'zookeeper.connect',
---     'connector.properties.0.value' = 'slave1:2181',
---     'connector.properties.1.key' = 'bootstrap.servers',
---     'connector.properties.1.value' = 'slave2:9092',
---     'update-mode' = 'append',
---     'format.type' = 'json',
---     'format.derive-schema' = 'true'
--- );
-
-
 CREATE TABLE user_log (
-          USER_ID VARCHAR,
-          ITEM_ID VARCHAR,
-          CATEGORY_ID VARCHAR,
-          BEHAVIOR VARCHAR,
-          TS TIMESTAMP
+    user_id VARCHAR,
+    item_id VARCHAR,
+    category_id VARCHAR,
+    behavior VARCHAR,
+    ts TIMESTAMP
 ) WITH (
-        'connector.type' = 'kafka',
-        'connector.version' = 'universal',
-        'connector.topic' = 'test_ogg',
-        'connector.startup-mode' = 'earliest-offset',
-        'connector.properties.0.key' = 'zookeeper.connect',
-        'connector.properties.0.value' = 'slave1:2181',
-        'connector.properties.1.key' = 'bootstrap.servers',
-        'connector.properties.1.value' = 'slave2:9092',
-        'update-mode' = 'append',
-        'format.type' = 'json',
-        'format.derive-schema' = 'true'
+    'connector.type' = 'kafka',
+    'connector.version' = 'universal',
+    'connector.topic' = 'user_behavior',
+    'connector.startup-mode' = 'earliest-offset',
+    'connector.properties.0.key' = 'zookeeper.connect',
+    'connector.properties.0.value' = 'slave1:2181',
+    'connector.properties.1.key' = 'bootstrap.servers',
+    'connector.properties.1.value' = 'slave2:9092',
+    'update-mode' = 'append',
+    'format.type' = 'json',
+    'format.derive-schema' = 'true'
 );
+
+
 
 -- sink mysql
 CREATE TABLE pvuv_sink (
@@ -69,19 +50,13 @@ CREATE TABLE pvuv_sink (
 );
 
 
+
+
 INSERT INTO pvuv_sink
 SELECT
-    DATE_FORMAT(TS, 'yyyy-MM-dd HH:00') dt,
-    COUNT(*) AS pv,
-    COUNT(DISTINCT USER_ID) AS uv
+  DATE_FORMAT(ts, 'yyyy-MM-dd HH:00') dt,
+  COUNT(*) AS pv,
+  COUNT(DISTINCT user_id) AS uv
 FROM user_log
-GROUP BY DATE_FORMAT(TS, 'yyyy-MM-dd HH:00');
-
--- INSERT INTO pvuv_sink
--- SELECT
---   DATE_FORMAT(ts, 'yyyy-MM-dd HH:00') dt,
---   COUNT(*) AS pv,
---   COUNT(DISTINCT user_id) AS uv
--- FROM user_log
--- GROUP BY DATE_FORMAT(ts, 'yyyy-MM-dd HH:00');
+GROUP BY DATE_FORMAT(ts, 'yyyy-MM-dd HH:00');
 
