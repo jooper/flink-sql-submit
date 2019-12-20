@@ -14,6 +14,7 @@ import org.apache.flink.table.api.scala.StreamTableEnvironment
 /**
   * date：2019-12-18
   * funcation：清理通过ogg同步到kafka中的数据，只保留after之后的数据到kafka中
+  * $FLINK_DIR/bin/flink run -d -p 4 -c com.github.wuchong.ETL.ETL_OGG_DATA_SINKTO_KAFKA  target/flink-sql-submit.jar "sourceTopicId" "sinkTopicId" "jobname"
   * author：
   */
 
@@ -24,16 +25,14 @@ object ETL_OGG_DATA_SINKTO_KAFKA {
   var jobName = "elt_ogg_data_sinkto_kafka"
 
   def main(args: Array[String]): Unit = {
-
-
-    //    if (args.length > 0) {
-    //      sinkTopicId = String.valueOf(args(0))
-    //      jobName = String.valueOf(args(1))
-    new ETL_OGG_DATA_SINKTO_KAFKA().startEtlApp(sourceTopicId, sinkTopicId, jobName)
-    //    }
-    //    else {
-    //      throw new RuntimeException("sink topicid and jobname mast providered")
-    //    }
+    if (args.length > 0) {
+      sinkTopicId = String.valueOf(args(0))
+      jobName = String.valueOf(args(1))
+      new ETL_OGG_DATA_SINKTO_KAFKA().startEtlApp(sourceTopicId, sinkTopicId, jobName)
+    }
+    else {
+      throw new RuntimeException("sink topicid and jobname mast providered")
+    }
   }
 }
 
@@ -97,12 +96,6 @@ class ETL_OGG_DATA_SINKTO_KAFKA {
     stream.addSink(producer).name(sinkTopicId)
       .setParallelism(5);
   }
-
-  private def transToLowerObject(jSONArray1: JSONObject) = {
-    val jsonArray2 = new JSONObject()
-    jsonArray2
-  }
-
 
 }
 
