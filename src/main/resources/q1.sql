@@ -71,9 +71,17 @@ CREATE TABLE pvuv_sink (
 
 INSERT INTO pvuv_sink
 SELECT
-  DATE_FORMAT(ts, 'yyyy-MM-dd HH:00') dt,
-  COUNT(*) AS pv,
-  COUNT(DISTINCT user_id) AS uv
+    DATE_FORMAT(TS, 'yyyy-MM-dd HH:00') dt,
+    COUNT(*) AS pv,
+    COUNT(DISTINCT USER_ID) AS uv
 FROM user_log
-GROUP BY DATE_FORMAT(ts, 'yyyy-MM-dd HH:00');
+GROUP BY DATE_FORMAT(TS, 'yyyy-MM-dd HH:00');
+
+-- INSERT INTO pvuv_sink
+-- SELECT
+--   DATE_FORMAT(ts, 'yyyy-MM-dd HH:00') dt,
+--   COUNT(*) AS pv,
+--   COUNT(DISTINCT user_id) AS uv
+-- FROM user_log
+-- GROUP BY DATE_FORMAT(ts, 'yyyy-MM-dd HH:00');
 
