@@ -23,7 +23,7 @@ CREATE TABLE user_log (
 
 -- sink kafka
 CREATE TABLE pvuv_sink_kafka (
-    dt VARCHAR,
+     dt VARCHAR,
      pv BIGINT,
      uv BIGINT
 ) WITH (
@@ -38,30 +38,10 @@ CREATE TABLE pvuv_sink_kafka (
     'update-mode' = 'append',
     'format.type' = 'json',
     'format.derive-schema' = 'true'
-
---     type = 'kafka010',    --请参见Kafka版本对应关系。
---     topic = 'test_kafka_topic',
---     `group.id` = 'test_kafka_consumer_group',
---     bootstrap.servers = 'slave2:9092'
 );
 
 
-CREATE TABLE pvuv_sink_mysql (
-    dt VARCHAR,
-    pv BIGINT,
-    uv BIGINT
-) WITH (
-    'connector.type' = 'jdbc',
-    'connector.url' = 'jdbc:mysql://master:3306/flink-test',
-    'connector.table' = 'pvuv_sink',
-    'connector.username' = 'hive',
-    'connector.password' = '123456',
-    'connector.write.flush.max-rows' = '1'
-);
-
-
-
-INSERT INTO pvuv_sink_mysql
+create view pvuv_view as
 SELECT
   DATE_FORMAT(ts, 'yyyy-MM-dd HH:00') dt,
   COUNT(*) AS pv,
@@ -71,5 +51,9 @@ GROUP BY DATE_FORMAT(ts, 'yyyy-MM-dd HH:00');
 
 
 
-INSERT INTO pvuv_sink_kafka SELECT * FROM pvuv_sink_mysql;
+INSERT INTO pvuv_sink_kafka
+select * from pvuv_view;
+
+
+
 

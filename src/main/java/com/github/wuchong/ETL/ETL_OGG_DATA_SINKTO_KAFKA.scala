@@ -95,7 +95,7 @@ class ETL_OGG_DATA_SINKTO_KAFKA {
   private def sinkDataToKafka(sinkTopicId: String, stream: DataStream[String], properties: Properties): Unit = {
     val producer = new FlinkKafkaProducer[String](sinkTopicId, new SimpleStringSchema(), properties)
     stream.addSink(producer).name(sinkTopicId)
-      .setParallelism(5);
+      .setParallelism(5)
   }
 
 }
