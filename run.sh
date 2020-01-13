@@ -23,7 +23,12 @@
 source "$(dirname "$0")"/env.sh
 
 PROJECT_DIR=`pwd`
+#  $1  :sql脚本文件名称
+# -jn  :运行当前sql文件的job名称
+$FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "$1".sql -jn "$2"
+
+
 
 #$FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "$1".sql -jn "$2"
-$FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "oracle_to_mysql".sql -jn "oracle_to_mysql"
-$FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "mysql_to_kafka".sql -jn "mysql_to_kafka"
+#$FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "oracle_to_mysql".sql -jn "oracle_to_mysql"
+#$FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "mysql_to_kafka".sql -jn "mysql_to_kafka"
