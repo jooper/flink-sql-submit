@@ -1,9 +1,11 @@
 #!/bin/bash
-#模拟向oracle中插入数据
+#模拟向oracle中插入数据,需要在安装了sqlplus的机器上执行，且需要切换到oracle账户
 # 传入参数1.数据表名，2.逗号分隔数据文件
 
 #use case : sh dataToOracle.sh table_name ./src/main/resources/oracle_mock_data.log
-#use case : sh dataToOracle.sh test_ogg ./src/main/resources/oracle_mock_data.log
+#use case : sh dataToOracle.sh TEST_OGG ./src/main/resources/oracle_mock_data.log
+
+#su - oracle
 
 #这里登陆账号和密码，数据库一定要在这个账号下面，如test_ogg账号下面，有一个test_ogg表
 conn=test_ogg/test_ogg@10.158.5.84:1521/oracle
