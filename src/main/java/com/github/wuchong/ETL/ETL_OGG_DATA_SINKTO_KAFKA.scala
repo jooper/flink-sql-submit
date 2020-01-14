@@ -70,8 +70,10 @@ class ETL_OGG_DATA_SINKTO_KAFKA {
           val logData: JSONObject = JSON.parseObject(line)
           val afterData: JSONObject = logData.getJSONObject("after")
           val operationType = logData.getString("op_type")
+          val tableName = logData.getString("table") //所有消息写到一个topic中时，可以通过table来取不同的值
+          afterData.put("table", tableName)
           afterData.put("OP_TYPE", operationType) //加入操作类型：U I D
-          rtn = fastJsonExt.transToLowerObject(afterData.toString()).toString;
+          rtn = fastJsonExt.transToLowerObject(afterData.toString()).toString; //将所有的key转换为小写
         } catch {
           case ex: Exception => {
             ex.printStackTrace()
