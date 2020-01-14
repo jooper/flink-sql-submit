@@ -3,7 +3,7 @@
 # 传入参数1.数据表名，2.逗号分隔数据文件
 
 #use case : sh dataToOracle.sh table_name ./src/main/resources/oracle_mock_data.log
-#use case : sh dataToOracle.sh TEST_OGG ./src/main/resources/oracle_mock_data.log
+#use case : sh dataToOracle.sh test_ogg ./src/main/resources/oracle_mock_data.log
 
 #su - oracle
 
