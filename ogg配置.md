@@ -213,12 +213,17 @@ NOCOMPRESSUPDATES;
    info trandata test_ogg.OPR_REGISTRATION
 3、edit param test_ogg(源端)
    table test_ogg.OPR_REGISTRATION
-4、cd /opt/ogg
+4、edit param pukafka
+   table test_ogg.OPR_REGISTRATION;
+5、cd /opt/ogg
     su - oracle
    ./defgen paramfile dirprm/test_ogg.prm
-5、scp -r /opt/ogg/dirdef/test_ogg.test_ogg root@10.158.5.81:/opt/ogg/dirdef/ 
+6、scp -r /opt/ogg/dirdef/test_ogg.test_ogg root@10.158.5.81:/opt/ogg/dirdef/ 
 
+7、edit param rekafka  添加表映射信息
+   MAP test_ogg.OPR_REGISTRATION, TARGET test_ogg.OPR_REGISTRATION; 
 
+8、重启源端和目标端
 
 
 
