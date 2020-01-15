@@ -1057,3 +1057,247 @@ comment on column PUB_HLLX.s_bz
 
 
 
+-- Create table
+create table IPI_REGISTRATION
+(
+  id                      VARCHAR2(20) not null,
+  person_info_id          VARCHAR2(20),
+  patient_name            VARCHAR2(30),
+  birthday                DATE,
+  s_nldw_dm               VARCHAR2(3),
+  age                     INTEGER,
+  s_xb_dm                 VARCHAR2(1) not null,
+  s_hyzk_dm               VARCHAR2(2) not null,
+  person_ident_id         VARCHAR2(20),
+  patient_type_id         VARCHAR2(20) not null,
+  s_czbz_dm               VARCHAR2(1) default '1',
+  health_service_org_id   VARCHAR2(20) not null,
+  registration_person_id  VARCHAR2(20),
+  registration_date       DATE,
+  opc_registration_id     VARCHAR2(20),
+  opc_dept_id             VARCHAR2(20),
+  clinic_dept_id          VARCHAR2(20),
+  opc_doctor_id           VARCHAR2(20),
+  ipi_dept_id             VARCHAR2(20),
+  ipi_doctor_id           VARCHAR2(20),
+  dept_id                 VARCHAR2(20),
+  dept_director_id        VARCHAR2(20),
+  doctor_id               VARCHAR2(20),
+  nurse_id                VARCHAR2(20),
+  bed_id                  VARCHAR2(20),
+  bed_no                  VARCHAR2(10),
+  s_hllx_dm               VARCHAR2(1),
+  s_hldj_dm               VARCHAR2(1),
+  ipi_registration_no     VARCHAR2(11) not null,
+  health_insurance_id     VARCHAR2(20),
+  pre_service_date        DATE,
+  is_newbom_baby          CHAR(1),
+  is_baby_detained        CHAR(1),
+  baby_link_ipi_no        VARCHAR2(20),
+  s_brztbh_dm             VARCHAR2(2),
+  d_brztbh_sj             DATE,
+  discharge_date          DATE,
+  first_insection_date    DATE,
+  s_ryqk_dm               VARCHAR2(2),
+  s_rytj_dm               VARCHAR2(2),
+  total_charge_amt        NUMBER(15,8) not null,
+  total_prepay_amt        NUMBER(15,8),
+  newbom_baby_aw          NUMBER(10),
+  newbom_baby_bw          NUMBER(10),
+  settlement_times        INTEGER not null,
+  insurance_area_code     VARCHAR2(50),
+  insurance_area_name     VARCHAR2(50),
+  s_cyqk_dm               VARCHAR2(2),
+  identity_no             VARCHAR2(30),
+  inpatient_area          VARCHAR2(20),
+  leave_dept_date         DATE,
+  s_ybzt_dm               VARCHAR2(4),
+  birthplace_province     VARCHAR2(30),
+  birthplace_city         VARCHAR2(30),
+  birthplace_area         VARCHAR2(30),
+  nativeplace_province    VARCHAR2(30),
+  nativeplace_city        VARCHAR2(30),
+  current_province        VARCHAR2(30),
+  current_city            VARCHAR2(30),
+  current_area            VARCHAR2(30),
+  current_address         VARCHAR2(200),
+  current_tel             VARCHAR2(50),
+  current_post            VARCHAR2(6),
+  regplace_province       VARCHAR2(30),
+  regplace_city           VARCHAR2(30),
+  regplace_area           VARCHAR2(30),
+  regplace_address        VARCHAR2(200),
+  regplace_post           VARCHAR2(6),
+  workunit_address        VARCHAR2(200),
+  workunit_tel            VARCHAR2(50),
+  workunit_post           VARCHAR2(6),
+  linkman_name            VARCHAR2(30),
+  linkman_relation        VARCHAR2(30),
+  linkman_address         VARCHAR2(200),
+  linkman_tel             VARCHAR2(50),
+  transfusion_charge_date DATE,
+  remark                  VARCHAR2(400),
+  s_gjhdq_dm              VARCHAR2(3),
+  s_grsf_dm               VARCHAR2(2),
+  s_ylfkfs_dm             VARCHAR2(2),
+  ipi_reg_certificate_id  VARCHAR2(20),
+  ipi_reg_app_id          VARCHAR2(20),
+  is_pregnancy            CHAR(1),
+  is_gcp                  CHAR(1),
+  age_hh                  INTEGER,
+  age_ss                  INTEGER,
+  is_newbom_baby_mother   CHAR(1),
+  is_after_settlement     CHAR(1),
+  is_bed_sharing          CHAR(1),
+  s_hzqk_dm               VARCHAR2(1),
+  version                 INTEGER,
+  gab                     NUMBER(3),
+  bbl                     NUMBER(5,1),
+  midwife_id              VARCHAR2(20),
+  migrate_sys_id          VARCHAR2(32),
+  clinic_group_id         VARCHAR2(20),
+  is_self_settlement      CHAR(1),
+  s_gllx_dm               VARCHAR2(1),
+  s_pkhsx_dm              VARCHAR2(4),
+  head_nurse_id           VARCHAR2(20),
+  is_gc                   CHAR(1),
+  is_opsa_into            CHAR(1),
+  is_isa                  CHAR(1),
+  is_psycho               CHAR(1),
+  this_year_times         INTEGER,
+  is_daytime              CHAR(1),
+  s_scqd_dm               VARCHAR2(20),
+  cur_mrb                 VARCHAR2(200),
+  workunit_province       VARCHAR2(20),
+  workunit_city           VARCHAR2(20),
+  workunit_area           VARCHAR2(20),
+  workunit                VARCHAR2(140),
+  nativeplace_area        VARCHAR2(20),
+  inhosp_way_othr         VARCHAR2(100),
+  othr_hso_xfer           VARCHAR2(100),
+  insection_dept_id       VARCHAR2(20),
+  insection_user_id       VARCHAR2(20),
+  inhospital_times        INTEGER,
+  case_serialnumber       VARCHAR2(32),
+  linkman_idtype          VARCHAR2(2),
+  linkman_idcard          VARCHAR2(30)
+)
+tablespace WENJ
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 8K
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table
+comment on table IPI_REGISTRATION
+  is '住院病人临床服务登记';
+-- Add comments to the columns
+comment on column IPI_REGISTRATION.person_info_id
+  is '如果是实名制就诊卡或有区域卫生信息平台接口的医院，则个人信息从区域平台取到个人基本信息表中来。
+如果是临时卡、或无卡患者，本列内容为空';
+comment on column IPI_REGISTRATION.registration_date
+  is '记录挂号的时间';
+comment on column IPI_REGISTRATION.is_newbom_baby
+  is '患者是否为婴儿';
+comment on column IPI_REGISTRATION.is_baby_detained
+  is '说明婴儿在母亲离院后是否被留下';
+comment on column IPI_REGISTRATION.s_brztbh_dm
+  is '病人状态变化代码';
+comment on column IPI_REGISTRATION.discharge_date
+  is '出院或离开时间';
+comment on column IPI_REGISTRATION.first_insection_date
+  is '首次入科时间';
+comment on column IPI_REGISTRATION.s_ryqk_dm
+  is '入院情况代码';
+comment on column IPI_REGISTRATION.s_rytj_dm
+  is '入院途径代码';
+comment on column IPI_REGISTRATION.transfusion_charge_date
+  is '输液计费时间';
+comment on column IPI_REGISTRATION.age_hh
+  is '年龄时间（HH），小时';
+comment on column IPI_REGISTRATION.age_ss
+  is '年龄时间（SS），分钟';
+comment on column IPI_REGISTRATION.is_newbom_baby_mother
+  is '是否新生儿母亲';
+comment on column IPI_REGISTRATION.is_after_settlement
+  is '是否后结算,若不参与控制欠费';
+comment on column IPI_REGISTRATION.is_bed_sharing
+  is '是否母婴同床';
+comment on column IPI_REGISTRATION.s_hzqk_dm
+  is '患者情况代码';
+comment on column IPI_REGISTRATION.gab
+  is '出生孕周（d）';
+comment on column IPI_REGISTRATION.bbl
+  is '出生身长（cm）';
+comment on column IPI_REGISTRATION.midwife_id
+  is '接生人员ID';
+comment on column IPI_REGISTRATION.migrate_sys_id
+  is '迁移系统ID，原系统住院登记业务ID';
+comment on column IPI_REGISTRATION.clinic_group_id
+  is '临床组ID';
+comment on column IPI_REGISTRATION.is_self_settlement
+  is '是否允许自助结算';
+comment on column IPI_REGISTRATION.s_gllx_dm
+  is '隔离类型代码';
+comment on column IPI_REGISTRATION.s_pkhsx_dm
+  is '贫困户属性代码';
+comment on column IPI_REGISTRATION.head_nurse_id
+  is '护士长ID';
+comment on column IPI_REGISTRATION.is_gc
+  is '是否绿色通道
+1  是
+2  否';
+comment on column IPI_REGISTRATION.is_opsa_into
+  is '是否有门诊结清费用转入
+1  是
+2  否';
+comment on column IPI_REGISTRATION.is_isa
+  is '是否一体化结算
+1  是
+2  否';
+comment on column IPI_REGISTRATION.is_psycho
+  is '是否精神病患者
+1  是
+2  否';
+comment on column IPI_REGISTRATION.this_year_times
+  is '本年度住院次数';
+comment on column IPI_REGISTRATION.is_daytime
+  is '是否日间手术
+1	是
+2	否';
+comment on column IPI_REGISTRATION.s_scqd_dm
+  is '市场渠道代码';
+comment on column IPI_REGISTRATION.cur_mrb
+  is '当前多重耐药菌';
+comment on column IPI_REGISTRATION.workunit_province
+  is '工作单位地址-省（自治区、直辖市）';
+comment on column IPI_REGISTRATION.workunit_city
+  is '工作单位地址-市（地区）';
+comment on column IPI_REGISTRATION.workunit_area
+  is '工作单位地址-县（区）';
+comment on column IPI_REGISTRATION.workunit
+  is '工作单位';
+comment on column IPI_REGISTRATION.nativeplace_area
+  is '籍贯地-县（区）';
+comment on column IPI_REGISTRATION.inhosp_way_othr
+  is '入院途径-其他描述';
+comment on column IPI_REGISTRATION.othr_hso_xfer
+  is '其他医疗机构转入';
+comment on column IPI_REGISTRATION.insection_dept_id
+  is '首次入科科室ID';
+comment on column IPI_REGISTRATION.insection_user_id
+  is '首次入科人ID';
+comment on column IPI_REGISTRATION.inhospital_times
+  is '住院次数';
+comment on column IPI_REGISTRATION.case_serialnumber
+  is '病案号';
+comment on column IPI_REGISTRATION.linkman_idtype
+  is '联系人身份证件类别';
+comment on column IPI_REGISTRATION.linkman_idcard
+  is '联系人身份证件号码';
+-- Create/Recreate indexes
