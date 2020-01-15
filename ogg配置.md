@@ -208,13 +208,13 @@ NOCOMPRESSUPDATES;
 1、dblogin userid ogg, password ogg
 
 --给表添加附加日志
-2、delete trandata test_ogg.OPR_REGISTRATION
-   add trandata test_ogg.OPR_REGISTRATION
-   info trandata test_ogg.OPR_REGISTRATION
+2、delete trandata test_ogg.opc_drug_presc_d_charge
+   add trandata test_ogg.opc_drug_presc_d_charge
+   info trandata test_ogg.opc_drug_presc_d_charge
 3、edit param test_ogg(源端)
-   table test_ogg.OPR_REGISTRATION
+   table test_ogg.opc_drug_presc_d_charge
 4、edit param pukafka
-   table test_ogg.OPR_REGISTRATION;
+   table test_ogg.opc_drug_presc_d_charge;
 5、cd /opt/ogg
     su - oracle
    ./defgen paramfile dirprm/test_ogg.prm
