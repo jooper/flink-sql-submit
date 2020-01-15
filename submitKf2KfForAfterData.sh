@@ -7,7 +7,7 @@ source "$(dirname "$0")"/env.sh
 #use case * $FLINK_DIR/bin/flink run -d -p 4 -c com.github.wuchong.ETL.ETL_OGG_DATA_SINKTO_KAFKA  target/flink-sql-submit.jar "sourceTopicId" "sinkTopicId" "jobname"
 #use case * $FLINK_DIR/bin/flink run -d -p 4 -c com.github.wuchong.ETL.ETL_OGG_DATA_SINKTO_KAFKA  target/flink-sql-submit.jar "$1" "$2" "$3"
 # 对ogg抽取到kafka中的数据进行抽取清洗，拿取after之后的数据放到相应的topic中
-topics=(TEST_OGG OPR_REGISTRATION opc_diag_service_d_charge opc_drug_presc_d_charge)
+topics=(TEST_OGG OPR_REGISTRATION OPC_DIAG_SERVICE_D_CHARGE OPC_DRUG_PRESC_D_CHARGE)  #这里的名字要和表的真实大小写保持一致，否则无法写入kafka
 
 function submitEtlJob() {
     for topic in ${topics[@]}; do
