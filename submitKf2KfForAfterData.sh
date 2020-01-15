@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+#  /home/soft/flink-1.9.0/conf/flink-conf.yaml
+#  这里面要设置slots的数量，否则job太多task不够用，job会自动挂掉
+
 source "$(dirname "$0")"/env.sh
 #use case * $FLINK_DIR/bin/flink run -d -p 4 -c com.github.wuchong.ETL.ETL_OGG_DATA_SINKTO_KAFKA  target/flink-sql-submit.jar "sourceTopicId" "sinkTopicId" "jobname"
 #use case * $FLINK_DIR/bin/flink run -d -p 4 -c com.github.wuchong.ETL.ETL_OGG_DATA_SINKTO_KAFKA  target/flink-sql-submit.jar "$1" "$2" "$3"
