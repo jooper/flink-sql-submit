@@ -67,6 +67,6 @@ sum(d.total_amt) AS account
 FROM OPC_DIAG_SERVICE_H_CHARGE h
 inner join OPC_DIAG_SERVICE_D_CHARGE d
 on d.diag_service_h_charge_id=h.id
-WHERE TO_DATE(SUBSTRING(h.charge_date,0,20))>=CURRENT_DATE
+WHERE TO_DATE(SUBSTRING(h.charge_date,0,20))<=CURRENT_DATE
 and h.health_service_org_id in ('RSS20171211000000001')
 GROUP BY h.health_service_org_id;
