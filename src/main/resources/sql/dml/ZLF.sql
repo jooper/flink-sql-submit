@@ -50,6 +50,21 @@ CREATE TABLE fee (
 );
 
 
+CREATE TABLE metric (
+    `metric` VARCHAR,
+    `dt`     VARCHAR,
+    `key`    VARCHAR,
+    `value`  VARCHAR
+) WITH (
+    'connector.type' = 'jdbc',
+    'connector.url' = 'jdbc:mysql://master:3306/flink-test',
+    'connector.table' = 'metric',
+    'connector.username' = 'hive',
+    'connector.password' = '123456',
+    'connector.write.flush.max-rows' = '1'
+);
+
+
 -- ok
 -- INSERT INTO fee
 -- SELECT
@@ -60,13 +75,29 @@ CREATE TABLE fee (
 --      on d.diag_service_h_charge_id=h.id
 -- GROUP BY h.health_service_org_id;
 
-INSERT INTO fee
+
+-- INSERT INTO fee
+-- SELECT
+-- h.health_service_org_id AS id,
+-- sum(d.total_amt) AS account
+-- FROM OPC_DIAG_SERVICE_H_CHARGE h
+-- inner join OPC_DIAG_SERVICE_D_CHARGE d
+-- on d.diag_service_h_charge_id=h.id
+-- WHERE TO_DATE(SUBSTRING(h.charge_date,0,20))<=CURRENT_DATE
+-- and h.health_service_org_id in ('RSS20171211000000001')
+-- GROUP BY h.health_service_org_id;
+
+
+
+INSERT INTO metric
 SELECT
-h.health_service_org_id AS id,
-sum(d.total_amt) AS account
+'zlf'+h.health_service_org_id AS metric,
+CAST(CURRENT_DATE AS VARCHAR) AS dt,
+'今日门诊诊疗费' AS ky,
+CAST(sum(d.total_amt) AS VARCHAR) AS vl
 FROM OPC_DIAG_SERVICE_H_CHARGE h
 inner join OPC_DIAG_SERVICE_D_CHARGE d
 on d.diag_service_h_charge_id=h.id
 WHERE TO_DATE(SUBSTRING(h.charge_date,0,20))<=CURRENT_DATE
-and h.health_service_org_id in ('RSS20171211000000001')
+and h.health_service_org_id in ('RSS20171211000000001');
 GROUP BY h.health_service_org_id;
