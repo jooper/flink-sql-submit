@@ -58,7 +58,7 @@ CREATE TABLE metric (
     `value`    VARCHAR
 ) WITH (
     'connector.type' = 'jdbc',
-    'connector.url' = 'jdbc:mysql://master:3306/flink-test?charset=utf8',
+    'connector.url' = 'jdbc:mysql://master:3306/flink-test?characterEncoding=utf-8',
     'connector.table' = 'metric',
     'connector.username' = 'hive',
     'connector.password' = '123456',
