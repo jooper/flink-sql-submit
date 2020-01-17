@@ -107,7 +107,7 @@ CREATE TABLE metric (
 INSERT INTO metric
 SELECT
 h.health_service_org_id AS `identity`,
-'Today_zlf' AS metric,
+'Today_opc_zlf' AS metric,
 SUBSTRING(h.charge_date,0,19)  AS dt,
 '今日门诊诊疗费' AS ky,
 CAST(sum(d.total_amt) AS VARCHAR) AS vl
