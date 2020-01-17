@@ -51,10 +51,11 @@ CREATE TABLE fee (
 
 
 CREATE TABLE metric (
-    `metric` VARCHAR,
-    `dt`     VARCHAR,
-    `key`    VARCHAR,
-    `value`  VARCHAR
+    `identity` VARCHAR,
+    `metric`   VARCHAR,
+    `dt`       VARCHAR,
+    `key`      VARCHAR,
+    `value`    VARCHAR
 ) WITH (
     'connector.type' = 'jdbc',
     'connector.url' = 'jdbc:mysql://master:3306/flink-test?charset=utf8',
@@ -105,8 +106,9 @@ CREATE TABLE metric (
 
 INSERT INTO metric
 SELECT
-h.health_service_org_id AS metric,
-SUBSTRING(h.charge_date,0,19) AS dt,
+h.health_service_org_id AS `identity`,
+'Today_zlf' AS metric,
+SUBSTRING(h.charge_date,0,19)  AS dt,
 '今日门诊诊疗费' AS ky,
 CAST(sum(d.total_amt) AS VARCHAR) AS vl
 FROM OPC_DIAG_SERVICE_H_CHARGE h
@@ -114,4 +116,4 @@ inner join OPC_DIAG_SERVICE_D_CHARGE d
 on d.diag_service_h_charge_id=h.id
 WHERE TO_DATE(SUBSTRING(h.charge_date,0,19))<=CURRENT_DATE
 and h.health_service_org_id in ('RSS20171211000000001')
-GROUP BY h.health_service_org_id,SUBSTRING(h.charge_date,0,20);
+GROUP BY h.health_service_org_id,SUBSTRING(h.charge_date,0,19) ;
