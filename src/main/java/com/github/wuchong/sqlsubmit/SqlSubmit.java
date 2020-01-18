@@ -36,7 +36,7 @@ public class SqlSubmit {
 
 //        -w "${PROJECT_DIR}"/src/main/resources/ -f "$1".sql -jn "xxx"
         String[] dd = new String[]{"-w", "E:\\Source\\Flink_Study\\flink-sql-submit\\src\\main\\resources\\sql\\dml",
-                "-f", "ZLF.sql", "-jn", "ZLF"};
+                "-f", "ZLF_AND_YPF.sql", "-jn", "ZLF"};
         final CliOptions options = CliOptionsParser.parseClient(dd);
 
 

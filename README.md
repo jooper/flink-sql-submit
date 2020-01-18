@@ -22,3 +22,4 @@ Job has been submitted with JobID d01b04d7c8f8a90798d6400462718743
     实时计算维表问题， 可将维表存储到mysql或者hbase中，实时表数据实时到kafka中，通过ddl做关联查询
     DDL  Sink维表数据到 Mysql
     DDL  Source Mysql中的维表，在于kafka的ddl表做关联查询
+    
