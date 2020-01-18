@@ -1,12 +1,12 @@
 
 CREATE TABLE OPC_DIAG_SERVICE_D_CHARGE (
   diag_service_h_charge_id VARCHAR,
-  total_amt BIGINT
+  total_amt DOUBLE
 ) WITH (
     'connector.type' = 'kafka',
     'connector.version' = 'universal',
     'connector.topic' = 'OPC_DIAG_SERVICE_D_CHARGE_AfterData',
-    'connector.startup-mode' = 'earliest-offset',
+     'connector.startup-mode' = 'latest-offset', --'earliest-offset',
     'connector.properties.0.key' = 'zookeeper.connect',
     'connector.properties.0.value' = 'slave1:2181',
     'connector.properties.1.key' = 'bootstrap.servers',
@@ -25,7 +25,7 @@ CREATE TABLE OPC_DIAG_SERVICE_H_CHARGE (
     'connector.type' = 'kafka',
     'connector.version' = 'universal',
     'connector.topic' = 'OPC_DIAG_SERVICE_H_CHARGE_AfterData',
-    'connector.startup-mode' = 'earliest-offset',
+     'connector.startup-mode' = 'latest-offset',--'earliest-offset',
     'connector.properties.0.key' = 'zookeeper.connect',
     'connector.properties.0.value' = 'slave1:2181',
     'connector.properties.1.key' = 'bootstrap.servers',
@@ -46,7 +46,7 @@ CREATE TABLE OPC_DRUG_PRESC_H_CHARGE (
     'connector.type' = 'kafka',
     'connector.version' = 'universal',
     'connector.topic' = 'OPC_DRUG_PRESC_H_CHARGE_AfterData',
-    'connector.startup-mode' = 'earliest-offset',
+     'connector.startup-mode' = 'latest-offset',--'earliest-offset',
     'connector.properties.0.key' = 'zookeeper.connect',
     'connector.properties.0.value' = 'slave1:2181',
     'connector.properties.1.key' = 'bootstrap.servers',
@@ -60,12 +60,12 @@ CREATE TABLE OPC_DRUG_PRESC_H_CHARGE (
 
 CREATE TABLE OPC_DRUG_PRESC_D_CHARGE (
   drug_presc_h_charge_id     VARCHAR,
-  total_amt                  BIGINT
+  total_amt                  DOUBLE
 ) WITH (
     'connector.type' = 'kafka',
     'connector.version' = 'universal',
     'connector.topic' = 'OPC_DRUG_PRESC_D_CHARGE_AfterData',
-    'connector.startup-mode' = 'earliest-offset',
+    'connector.startup-mode' = 'latest-offset',--'earliest-offset',
     'connector.properties.0.key' = 'zookeeper.connect',
     'connector.properties.0.value' = 'slave1:2181',
     'connector.properties.1.key' = 'bootstrap.servers',
@@ -83,7 +83,7 @@ CREATE TABLE metric (
     `metric`   VARCHAR,
     `dt`       VARCHAR,
     `key`      VARCHAR,
-    `value`    VARCHAR
+    `value`    DOUBLE
 ) WITH (
     'connector.type' = 'jdbc',
     'connector.url' = 'jdbc:mysql://master:3306/flink-test?characterEncoding=utf-8',
@@ -139,7 +139,7 @@ h.health_service_org_id AS `identity`,
 'Today_opc_zlf' AS metric,
 SUBSTRING(h.charge_date,0,19)  AS dt,
 '今日门诊诊疗费' AS ky,
-CAST(sum(d.total_amt) AS VARCHAR) AS vl
+sum(d.total_amt) AS vl
 FROM OPC_DIAG_SERVICE_H_CHARGE h
 inner join OPC_DIAG_SERVICE_D_CHARGE d
 on d.diag_service_h_charge_id=h.id
@@ -158,7 +158,7 @@ hh.health_service_org_id AS `identity`,
 'Today_opc_ypf' AS metric,
 SUBSTRING(hh.charge_date,0,19)  AS dt,
 '今日门诊药品费' AS ky,
-CAST(sum(dd.total_amt) AS VARCHAR) AS vl
+sum(dd.total_amt) AS vl
 FROM OPC_DRUG_PRESC_H_CHARGE hh
 inner join OPC_DRUG_PRESC_D_CHARGE dd
 on dd.drug_presc_h_charge_id=hh.id

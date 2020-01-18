@@ -23,3 +23,4 @@ Job has been submitted with JobID d01b04d7c8f8a90798d6400462718743
     DDL  Sink维表数据到 Mysql
     DDL  Source Mysql中的维表，在于kafka的ddl表做关联查询
     
+    两个INSERT不能在同一个文件中，这样容易一个insert的时候造成另外一个不需要insert的表跟着insert了，造成数据统计不准确
