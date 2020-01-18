@@ -114,6 +114,6 @@ CAST(sum(d.total_amt) AS VARCHAR) AS vl
 FROM OPC_DIAG_SERVICE_H_CHARGE h
 inner join OPC_DIAG_SERVICE_D_CHARGE d
 on d.diag_service_h_charge_id=h.id
-WHERE TO_DATE(SUBSTRING(h.charge_date,0,19))<=CURRENT_DATE
+WHERE TO_TIMESTAMP(SUBSTRING(h.charge_date,0,19))<=CURRENT_TIMESTAMP
 and h.health_service_org_id in ('RSS20171211000000001')
 GROUP BY h.health_service_org_id,SUBSTRING(h.charge_date,0,19);
