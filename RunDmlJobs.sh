@@ -9,4 +9,4 @@
 
 
 #今日门诊诊疗费、今日门诊药品费
-./run.sh "METRIC_TODAY_ZLF_AND_YPF_FEE" "Metric_Compute_TODAY_ZLF_AND_YPF_FEE"
+./run.sh "METRIC_TODAY_ZLF_AND_YPF_FEE" ""Metric_Compute_TODAY_ZLF_AND_YPF_FEE

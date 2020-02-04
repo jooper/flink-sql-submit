@@ -1,12 +1,12 @@
 
 CREATE TABLE OPC_DIAG_SERVICE_D_CHARGE (
   diag_service_h_charge_id VARCHAR,
-  total_amt BIGINT
+  total_amt DOUBLE
 ) WITH (
     'connector.type' = 'kafka',
     'connector.version' = 'universal',
     'connector.topic' = 'OPC_DIAG_SERVICE_D_CHARGE_AfterData',
-    'connector.startup-mode' = 'earliest-offset',
+    'connector.startup-mode' = 'latest-offset',
     'connector.properties.0.key' = 'zookeeper.connect',
     'connector.properties.0.value' = 'slave1:2181',
     'connector.properties.1.key' = 'bootstrap.servers',
@@ -25,7 +25,7 @@ CREATE TABLE OPC_DIAG_SERVICE_H_CHARGE (
     'connector.type' = 'kafka',
     'connector.version' = 'universal',
     'connector.topic' = 'OPC_DIAG_SERVICE_H_CHARGE_AfterData',
-    'connector.startup-mode' = 'earliest-offset',
+    'connector.startup-mode' = 'latest-offset',
     'connector.properties.0.key' = 'zookeeper.connect',
     'connector.properties.0.value' = 'slave1:2181',
     'connector.properties.1.key' = 'bootstrap.servers',
@@ -41,7 +41,7 @@ CREATE TABLE metric (
     `metric`   VARCHAR,
     `dt`       VARCHAR,
     `key`      VARCHAR,
-    `value`    VARCHAR
+    `value`    DOUBLE
 ) WITH (
     'connector.type' = 'jdbc',
     'connector.url' = 'jdbc:mysql://master:3306/flink-test?characterEncoding=utf-8',
@@ -55,16 +55,45 @@ CREATE TABLE metric (
 
 
 -- 诊疗费
+-- INSERT INTO metric
+-- SELECT
+-- h.health_service_org_id AS `identity`,
+-- 'Today_opc_zlf' AS metric,
+-- SUBSTRING(h.charge_date,0,19)  AS dt,
+-- '今日门诊诊疗费' AS ky,
+-- CAST(sum(d.total_amt) AS VARCHAR) AS vl
+-- FROM OPC_DIAG_SERVICE_H_CHARGE h
+-- inner join OPC_DIAG_SERVICE_D_CHARGE d
+-- on d.diag_service_h_charge_id=h.id
+-- WHERE TO_TIMESTAMP(SUBSTRING(h.charge_date,0,19))<=CURRENT_TIMESTAMP
+-- and h.health_service_org_id in ('RSS20171211000000001')
+-- GROUP BY h.health_service_org_id,SUBSTRING(h.charge_date,0,19);
+
+
+-- INSERT INTO metric
+-- SELECT
+-- h.health_service_org_id AS `identity`,
+-- 'Today_opc_zlf' AS metric,
+-- ''  AS dt,
+-- '今日门诊诊疗费' AS ky,
+-- sum(d.total_amt) AS vl
+-- FROM OPC_DIAG_SERVICE_H_CHARGE h
+-- inner join OPC_DIAG_SERVICE_D_CHARGE d
+-- on d.diag_service_h_charge_id=h.id
+-- WHERE TO_TIMESTAMP(SUBSTRING(h.charge_date,0,19))<=CURRENT_TIMESTAMP
+-- and h.health_service_org_id in ('RSS20171211000000001')
+-- GROUP BY h.health_service_org_id;
+
+
 INSERT INTO metric
 SELECT
 h.health_service_org_id AS `identity`,
 'Today_opc_zlf' AS metric,
-SUBSTRING(h.charge_date,0,19)  AS dt,
+''  AS dt,
 '今日门诊诊疗费' AS ky,
-CAST(sum(d.total_amt) AS VARCHAR) AS vl
+d.total_amt AS vl
 FROM OPC_DIAG_SERVICE_H_CHARGE h
 inner join OPC_DIAG_SERVICE_D_CHARGE d
 on d.diag_service_h_charge_id=h.id
 WHERE TO_TIMESTAMP(SUBSTRING(h.charge_date,0,19))<=CURRENT_TIMESTAMP
-and h.health_service_org_id in ('RSS20171211000000001')
-GROUP BY h.health_service_org_id,SUBSTRING(h.charge_date,0,19);
+and h.health_service_org_id in ('RSS20171211000000001');

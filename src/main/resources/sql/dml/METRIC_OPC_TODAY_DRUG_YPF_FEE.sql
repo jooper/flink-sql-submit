@@ -40,7 +40,7 @@ CREATE TABLE metric (
     `metric`   VARCHAR,
     `dt`       VARCHAR,
     `key`      VARCHAR,
-    `value`    VARCHAR
+    `value`    DOUBLE
 ) WITH (
     'connector.type' = 'jdbc',
     'connector.url' = 'jdbc:mysql://master:3306/flink-test?characterEncoding=utf-8',
@@ -59,7 +59,7 @@ hh.health_service_org_id AS `identity`,
 'Today_opc_ypf' AS metric,
 SUBSTRING(hh.charge_date,0,19)  AS dt,
 '今日门诊药品费' AS ky,
-CAST(sum(dd.total_amt) AS VARCHAR) AS vl
+sum(dd.total_amt) AS vl
 FROM OPC_DRUG_PRESC_H_CHARGE hh
 inner join OPC_DRUG_PRESC_D_CHARGE dd
 on dd.drug_presc_h_charge_id=hh.id
