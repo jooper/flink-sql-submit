@@ -29,6 +29,7 @@ echo "table test_ogg.${table_name};" >>${ogg_home}/dirprm/test_ogg.prm
 
 cat ${ogg_home}/dirprm/test_ogg.prm
 
+#删除结构文件，重新生成
 rm -rf ${ogg_home}/dirdef/test_ogg.test_ogg
 
 ${ogg_home}/defgen paramfile ${ogg_home}/dirprm/test_ogg.prm
