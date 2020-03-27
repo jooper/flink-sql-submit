@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#提交job
+#提交单个job，执行相关sql文件中的代码
 #$FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "$1".sql -jn "$2"
 ################################################################################
 # Licensed to the Apache Software Foundation (ASF) under one
@@ -23,9 +23,11 @@
 source "$(dirname "$0")"/env.sh
 
 PROJECT_DIR=`pwd`
-#  $1  :sql脚本文件名称
+#  $1  :sql脚本文件名称 如：a1.sql
 # -jn  :运行当前sql文件的job名称
-$FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "$1".sql -jn "$2"
+#$FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "$1".sql -jn "$2"
+
+$FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "$1" -jn "$2"
 
 
 

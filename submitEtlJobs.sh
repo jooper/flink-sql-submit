@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+#清洗ogg同步过来的topic，清洗后形成after数据（只保留数据字段）
 #  /home/soft/flink-1.9.0/conf/flink-conf.yaml
 #  这里面要设置slots的数量，否则job太多task不够用，job会自动挂掉
 
