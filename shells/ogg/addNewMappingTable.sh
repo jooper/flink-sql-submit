@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#functaion:添加新表信息到ogg的映射文件中
+#functaion:添加新表信息到ogg的映射文件中,自动化脚本
 #use case: ./addNewMappingTable.sh table_name
 #ps:需要在oracle账号下进行以下操作，  su - oracle
 # su - oracle

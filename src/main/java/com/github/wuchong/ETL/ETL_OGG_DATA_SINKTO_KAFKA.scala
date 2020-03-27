@@ -44,9 +44,9 @@ class ETL_OGG_DATA_SINKTO_KAFKA {
 
     val (env: StreamExecutionEnvironment, streamTableEnv: StreamTableEnvironment, properties: Properties) = getEnv
 
-    val result: DataStream[String] = getSourceOggDataFromKafka(sourceTopicId, env, streamTableEnv, properties)
+    val etlResult: DataStream[String] = getSourceOggDataFromKafka(sourceTopicId, env, streamTableEnv, properties)
 
-    sinkDataToKafka(sinkTopicId, result, properties)
+    sinkDataToKafka(sinkTopicId, etlResult, properties)
 
     env.execute(jobName)
   }
