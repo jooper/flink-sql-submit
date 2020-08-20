@@ -19,6 +19,10 @@
 # limitations under the License.
 ################################################################################
 #-jn  jobname
+#./flink run --help
+#客户端提交作业的时候 断开，session会话也会断开，加上这个参数后，会继续保持会话
+#eg： flink run -d
+#-p  并行度   -p,--parallelism <parallelism>
 
 source "$(dirname "$0")"/env.sh
 

@@ -21,10 +21,13 @@ import org.apache.flink.table.api.scala.StreamTableEnvironment
 
 object ETL_OGG_DATA_SINKTO_KAFKA {
   var sourceTopicId = "test_ogg"
+  sourceTopicId="default_sink"
   var sinkTopicId = "user_behavior"
   var jobName = "elt_ogg_data_sinkto_kafka"
 
   def main(args: Array[String]): Unit = {
+    new ETL_OGG_DATA_SINKTO_KAFKA().startEtlApp(sourceTopicId, sinkTopicId, jobName)
+    return
     if (args.length > 0) {
       sourceTopicId = String.valueOf(args(0))
       sinkTopicId = String.valueOf(args(1))
@@ -67,6 +70,7 @@ class ETL_OGG_DATA_SINKTO_KAFKA {
       .map(line => {
         var rtn: String = null
         try {
+               print(line)
           val logData: JSONObject = JSON.parseObject(line)
           val afterData: JSONObject = logData.getJSONObject("after")
           val operationType = logData.getString("op_type")
@@ -74,6 +78,7 @@ class ETL_OGG_DATA_SINKTO_KAFKA {
           afterData.put("table", tableName)
           afterData.put("OP_TYPE", operationType) //加入操作类型：U I D
           rtn = fastJsonExt.transToLowerObject(afterData.toString()).toString; //将所有的key转换为小写
+
         } catch {
           case ex: Exception => {
             ex.printStackTrace()
