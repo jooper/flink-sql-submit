@@ -26,12 +26,13 @@
 
 source "$(dirname "$0")"/env.sh
 
-PROJECT_DIR=`pwd`
+PROJECT_DIR=`cd .. && pwd`
 #  $1  :sql脚本文件名称 如：a1.sql
 # -jn  :运行当前sql文件的job名称
 #$FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "$1".sql -jn "$2"
 
-$FLINK_DIR/bin/flink run -d -p 4 target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/ -f "$1" -jn "$2"
+$FLINK_DIR/bin/flink run -d -p 4 ../target/flink-sql-submit.jar -w "${PROJECT_DIR}"/src/main/resources/sql/dml/ -f "$1" -jn "$2"
+
 
 
 

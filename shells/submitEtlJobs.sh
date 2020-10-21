@@ -15,7 +15,7 @@ function submitEtlJob() {
     for topic in ${topics[@]}; do
         if [ topic != "" ]; then
             echo "starting topic $topic etl job . . ."
-            $FLINK_DIR/bin/flink run -d -p 4 -c com.github.wuchong.ETL.ETL_OGG_DATA_SINKTO_KAFKA target/flink-sql-submit.jar "${topic}" "${topic}_AfterData" "ETL_ORACLE_TABLE_[${topic}]_AfterData_JOB"
+            $FLINK_DIR/bin/flink run -d -p 4 -c com.github.wuchong.ETL.ETL_OGG_DATA_SINKTO_KAFKA ../target/flink-sql-submit.jar "${topic}" "${topic}_AfterData" "ETL_ORACLE_TABLE_[${topic}]_AfterData_JOB"
         fi
     done
 }
