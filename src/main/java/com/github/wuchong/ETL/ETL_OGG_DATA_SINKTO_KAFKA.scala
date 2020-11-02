@@ -19,20 +19,20 @@ import org.apache.flink.table.api.scala.StreamTableEnvironment
   */
 
 
-object ETL_OGG_DATA_SINKTO_KAFKA {
+object ETL_OGG_DATA_SINK_TO_KAFKA {
   var sourceTopicId = "test_ogg"
   sourceTopicId="default_sink"
   var sinkTopicId = "user_behavior"
   var jobName = "elt_ogg_data_sinkto_kafka"
 
   def main(args: Array[String]): Unit = {
-    new ETL_OGG_DATA_SINKTO_KAFKA().startEtlApp(sourceTopicId, sinkTopicId, jobName)
+    new ETL_OGG_DATA_SINK_TO_KAFKA().startEtlApp(sourceTopicId, sinkTopicId, jobName)
     return
     if (args.length > 0) {
       sourceTopicId = String.valueOf(args(0))
       sinkTopicId = String.valueOf(args(1))
       jobName = String.valueOf(args(2))
-      new ETL_OGG_DATA_SINKTO_KAFKA().startEtlApp(sourceTopicId, sinkTopicId, jobName)
+      new ETL_OGG_DATA_SINK_TO_KAFKA().startEtlApp(sourceTopicId, sinkTopicId, jobName)
     }
     else {
       throw new RuntimeException("sink topicid and jobname mast providered")
@@ -41,7 +41,7 @@ object ETL_OGG_DATA_SINKTO_KAFKA {
 }
 
 
-class ETL_OGG_DATA_SINKTO_KAFKA {
+class ETL_OGG_DATA_SINK_TO_KAFKA {
 
   def startEtlApp(sourceTopicId: String, sinkTopicId: String, jobName: String): Unit = {
 
